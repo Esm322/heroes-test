@@ -55,22 +55,13 @@ const getHeroes = () => {
 };
 
 watch(
-  () => page.value,
-  (newValue) => {
-    if (newValue) {
-      getHeroes();
-    }
-  },
-);
-
-watch(
-  () => heroStatus.value || heroName.value,
-  (newValue) => {
-    if (newValue) {
+  [page, () => heroName.value || heroStatus.value],
+  ([newPage, newName, newStatus]) => {
+    if (newPage) {
       getHeroes();
     }
 
-    if (newValue === '') {
+    if (newName || newStatus || newName === '' || newStatus === '') {
       getHeroes();
     }
   },
